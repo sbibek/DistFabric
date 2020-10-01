@@ -1,18 +1,21 @@
 from appmaster.appmanager import DfAppManager
 
 class DfOrchestrator:
-    def __init__(self, config, logger, broker):
+    def __init__(self, config, logger, broker, sync):
         self.config = config
         self.logger = logger
         self.borker = broker
+        self.sync = sync
         self.appmanager = DfAppManager(config, logger)
     
-    def processMsg(self, message):
+    def processMsg(self, payload):
         # check if this master only message
         # this hook will be called only if this instance is master
-        if message['to'] == 'MASTER':
-            self.__processMasterOnlyMessage(message);
+        if payload['to'] == 'MASTER':
+            self.__processMasterOnlyMessage(payload);
             return
+        
+        message = payload['message']
 
         # here all actions are non master only
         if message['action'] == 'EXEC_APP':
@@ -35,3 +38,14 @@ class DfOrchestrator:
 
     def orchestrate(self):
         self.borker.startReceiver(self.processMsg)
+
+    def getApps(self):
+        return self.appmanager.getApps()
+    
+    def performSync(self):
+        self.sync.sync()
+
+    def invokeApp(self, app, args):
+        self.borker.broadcast({"action":"EXEC_APP", "app":app, "args":args})
+
+    

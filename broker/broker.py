@@ -41,7 +41,6 @@ class DfBroker:
         if data['to'] == '*' or data['to'] == self.config['whoAmI']:
             self.callback(data)
     
-    ## TODO broker knows how to talok, this is the main part of the implementation of the broker
     def sendToMaster(self, message):
         payload = {"to": 'MASTER', "from":self.config['whoAmI'],"action":"RESPONSE", "message": message}
         self.sender.sendToNodes(payload)
@@ -53,3 +52,4 @@ class DfBroker:
     def send(self, to, message):
         payload = {"to": to, "from":self.config['whoAmI'], "message": message}
         self.sender.sendToNodes(payload)
+    

@@ -1,5 +1,5 @@
 from appstore.testapp.testapp import TestApp
 
 apps = {
-    'test': TestApp() 
+    'test': { 'description': 'test application', 'instance': TestApp() }
 }

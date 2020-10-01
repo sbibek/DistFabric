@@ -5,6 +5,9 @@ class DfAppManager:
         self.config = config
         self.logger = logger
     
+    def getApps(self):
+        return apps
+    
     def invokeApp(self, meta, onComplete, onError):
         # meta {'app': name of app, arguments:...}
         if meta['app'] not in apps:
@@ -12,5 +15,5 @@ class DfAppManager:
             onError(-1)
         else:
             def __onComplete(response): onComplete(meta, response)
-            app = apps[meta['app']]
+            app = apps[meta['app']]['instance']
             app.run(meta['args'], __onComplete, self.logger)
