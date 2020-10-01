@@ -13,11 +13,11 @@ class DfBroker:
             self.receiver = DfReceiver(config, self.onMessage)
         
         def onMessage(self, body):
-            data = json.loads(body.decode('utf-8'))
-            self.callback(data)
+            _d = body.decode('utf-8')
+            if len(_d) == 0: return
+            self.callback(json.loads(_d))
         
         def run(self):
-            self.logger.info("started broker receiver")
             self.receiver.start()
 
 
@@ -32,7 +32,24 @@ class DfBroker:
         self.recever.start()
 
     def onMessage(self, data):
-        print(data)
-        self.callback(data)
+        # message to master should be especially marked
+        # if instance is master, only related data would be passed on above
+        if data['to'] == '*' and self.config['whoAmI'] == 'MASTER':
+            return;
+
+        # the broker will send the data upstream if only the configuration says its appropriate
+        if data['to'] == '*' or data['to'] == self.config['whoAmI']:
+            self.callback(data)
     
     ## TODO broker knows how to talok, this is the main part of the implementation of the broker
+    def sendToMaster(self, message):
+        payload = {"to": 'MASTER',"action":"RESPONSE", "message": message}
+        self.sender.sendToNodes(payload)
+    
+    def broadcast(self, message):
+        payload = {"to": '*', "message": message}
+        self.sender.sendToNodes(payload)
+    
+    def send(self, to, message):
+        payload = {"to": to, "message": message}
+        self.sender.sendToNodes(payload)
