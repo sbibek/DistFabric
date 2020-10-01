@@ -8,14 +8,14 @@ class DfSync:
         self.logger = logger
 
     def __rsync(self, nodeInfo):
-        process = subprocess.Popen(['rsync', '-a', self.syncDir, '{}@{}:{}'.format(nodeInfo['user'], nodeInfo['ip'], self.syncDir)],
+        process = subprocess.Popen(['rsync', '-a', self.syncDir, '{}@{}:{}'.format(nodeInfo['user'], nodeInfo['host'], self.syncDir)],
                      stdout=subprocess.PIPE, 
                      stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
 
         if len(stderr) is not 0:
-            raise Exception('sync error for node {}'.format(nodeInfo['ip']))
-        self.logger.info('syncing {}..done'.format(nodeInfo['ip']))
+            raise Exception('sync error for node {}'.format(nodeInfo['host']))
+        self.logger.info('syncing {}..done'.format(nodeInfo['host']))
     
     def sync(self):
         self.logger.info("starting directory sync")
