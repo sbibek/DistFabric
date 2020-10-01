@@ -1,0 +1,8 @@
+{
+    "sync": {
+        "dir": "/home/bibek/shared/df/"
+    },
+    "nodes": [
+        {"user": "bibek", "ip": "192.168.1.64"}
+    ]
+}
