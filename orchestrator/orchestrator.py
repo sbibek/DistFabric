@@ -1,4 +1,5 @@
 from appmaster.appmanager import DfAppManager
+import time
 
 class DfOrchestrator:
     def __init__(self, config, logger, broker, sync):
@@ -7,6 +8,10 @@ class DfOrchestrator:
         self.borker = broker
         self.sync = sync
         self.appmanager = DfAppManager(config, logger)
+
+        # location to hold current app invokes
+        # we always will allow just one invoke for now
+        self.process = {'state':'idle', 'results': []}
     
     def processMsg(self, payload):
         # check if this master only message
@@ -33,7 +38,12 @@ class DfOrchestrator:
         pass
 
     def __processMasterOnlyMessage(self, message):
-        self.logger.info("got master only message {}".format(message))
+        # self.logger.info("got master only message {}".format(message))
+        if message['action'] == 'RESPONSE':
+            self.process['results'].append(message['message'])
+        
+        if len(self.process['results']) >= len(self.config['nodes']):
+            self.process['state'] = 'complete'
 
 
     def orchestrate(self):
@@ -47,5 +57,18 @@ class DfOrchestrator:
 
     def invokeApp(self, app, args):
         self.borker.broadcast({"action":"EXEC_APP", "app":app, "args":args})
-
+        self.process['state'] = 'running'
+        results = self.__waitfForResults()
+        print(results)
     
+    def __waitfForResults(self):
+        # this is called after each of the invoke, this will mandatorily make the master wait for 
+        # the responses before doing anything
+        while self.process['state'] != 'complete':
+            time.sleep(1)
+        
+        # if we are here means the state is complete
+        self.process['state'] = 'idle'
+        res = self.process['results']
+        self.process['results'] = []
+        return res
