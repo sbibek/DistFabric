@@ -43,13 +43,13 @@ class DfBroker:
     
     ## TODO broker knows how to talok, this is the main part of the implementation of the broker
     def sendToMaster(self, message):
-        payload = {"to": 'MASTER',"action":"RESPONSE", "message": message}
+        payload = {"to": 'MASTER', "from":self.config['whoAmI'],"action":"RESPONSE", "message": message}
         self.sender.sendToNodes(payload)
     
     def broadcast(self, message):
-        payload = {"to": '*', "message": message}
+        payload = {"to": '*', "from":self.config['whoAmI'], "message": message}
         self.sender.sendToNodes(payload)
     
     def send(self, to, message):
-        payload = {"to": to, "message": message}
+        payload = {"to": to, "from":self.config['whoAmI'], "message": message}
         self.sender.sendToNodes(payload)

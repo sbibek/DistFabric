@@ -14,5 +14,4 @@ class DfSender:
         self.channel.exchange_declare(exchange=self.config["exchange"], exchange_type=self.config["type"]) 
     
     def sendToNodes(self, message):
-        message['from'] = self.config['whoAmI']
         self.channel.basic_publish(exchange=self.config['exchange'], routing_key='', body=json.dumps(message))
