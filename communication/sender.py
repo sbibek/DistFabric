@@ -4,7 +4,10 @@ import json
 class DfSender:
     def __init__(self, config):
         self.config = config["rabbitmq"]
-        self. connection = pika.BlockingConnection(pika.ConnectionParameters(
+        self.__initConnection()
+
+    def __initConnection(self):
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(
             host=self.config["host"], 
             port=self.config["port"], 
             virtual_host="/",
@@ -12,6 +15,12 @@ class DfSender:
             ))
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange=self.config["exchange"], exchange_type=self.config["type"]) 
+
     
     def sendToNodes(self, message):
-        self.channel.basic_publish(exchange=self.config['exchange'], routing_key='', body=json.dumps(message))
+        try:
+            self.channel.basic_publish(exchange=self.config['exchange'], routing_key='', body=json.dumps(message))
+        except:
+            # some error sending the message
+            self.__initConnection()
+            self.channel.basic_publish(exchange=self.config['exchange'], routing_key='', body=json.dumps(message))

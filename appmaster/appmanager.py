@@ -16,4 +16,8 @@ class DfAppManager:
         else:
             def __onComplete(response): onComplete(meta, response)
             app = apps[meta['app']]['instance']
-            app.run(meta['args'], __onComplete, self.logger)
+            app.run(app.formatArguments(meta['args']), __onComplete, self.logger)
+    
+    def invokeAppResultsProcessor(self, app, result):
+        app = apps[app]['instance']
+        return app.processResults(result)

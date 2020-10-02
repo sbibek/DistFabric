@@ -11,7 +11,7 @@ class DfOrchestrator:
 
         # location to hold current app invokes
         # we always will allow just one invoke for now
-        self.process = {'state':'idle', 'results': []}
+        self.process = {'state':'idle', 'app': '',  'results': []}
     
     def processMsg(self, payload):
         # check if this master only message
@@ -58,6 +58,7 @@ class DfOrchestrator:
     def invokeApp(self, app, args):
         self.borker.broadcast({"action":"EXEC_APP", "app":app, "args":args})
         self.process['state'] = 'running'
+        self.process['app'] = app
         results = self.__waitfForResults()
         print(results)
     
@@ -65,10 +66,11 @@ class DfOrchestrator:
         # this is called after each of the invoke, this will mandatorily make the master wait for 
         # the responses before doing anything
         while self.process['state'] != 'complete':
-            time.sleep(1)
+            time.sleep(0.2)
         
         # if we are here means the state is complete
         self.process['state'] = 'idle'
         res = self.process['results']
+        app = self.process['app']
         self.process['results'] = []
-        return res
+        return self.appmanager.invokeAppResultsProcessor(app, res)
