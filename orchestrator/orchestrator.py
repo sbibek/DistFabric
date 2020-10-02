@@ -59,7 +59,7 @@ class DfOrchestrator:
     def invokeApp(self, app, args):
         processedArgs = self.appmanager.invokeAppArgumentsProcessor(app, args)
         if processedArgs is None:
-            print("app {} not found!!".format(app))
+            print("error processing app {}!!".format(app))
             return
 
         self.borker.broadcast({"action":"EXEC_APP", "app":app, "args":processedArgs})
