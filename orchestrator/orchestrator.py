@@ -11,7 +11,7 @@ class DfOrchestrator:
 
         # location to hold current app invokes
         # we always will allow just one invoke for now
-        self.process = {'state':'idle', 'app': '',  'results': []}
+        self.process = {'state':'idle', 'app': '',  'results': [], 'tracker': []}
     
     def processMsg(self, payload):
         # check if this master only message
@@ -34,10 +34,11 @@ class DfOrchestrator:
         self.borker.sendToMaster({"args": originalMessage, "result": result})
 
 
-    def __onAppInvokeFailed(self, originalMessage, result):
-        pass
+    def __onAppInvokeFailed(self, reason):
+        self.borker.sendToMaster({"args": originalMessage, "result": reason})
 
     def __processMasterOnlyMessage(self, message):
+        message['message']['from'] = message['from']
         # self.logger.info("got master only message {}".format(message))
         if message['action'] == 'RESPONSE':
             self.process['results'].append(message['message'])
@@ -56,7 +57,12 @@ class DfOrchestrator:
         self.sync.sync()
 
     def invokeApp(self, app, args):
-        self.borker.broadcast({"action":"EXEC_APP", "app":app, "args":args})
+        processedArgs = self.appmanager.invokeAppArgumentsProcessor(app, args)
+        if processedArgs is None:
+            print("app {} not found!!".format(app))
+            return
+
+        self.borker.broadcast({"action":"EXEC_APP", "app":app, "args":processedArgs})
         self.process['state'] = 'running'
         self.process['app'] = app
         results = self.__waitfForResults()

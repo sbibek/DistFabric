@@ -12,7 +12,7 @@ class DfAppManager:
         # meta {'app': name of app, arguments:...}
         if meta['app'] not in apps:
             self.logger.info('app {} not found!!'.format(meta['app'])) 
-            onError(-1)
+            onError("app not found")
         else:
             def __onComplete(response): onComplete(meta, response)
             app = apps[meta['app']]['instance']
@@ -21,3 +21,9 @@ class DfAppManager:
     def invokeAppResultsProcessor(self, app, result):
         app = apps[app]['instance']
         return app.processResults(result)
+    
+    def invokeAppArgumentsProcessor(self, app, args):
+        if app not in apps:
+            return None
+        else:
+            return apps[app]['instance'].prepareArguments(args)
