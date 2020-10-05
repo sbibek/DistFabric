@@ -1,12 +1,18 @@
 from appmaster.app import DfApp
 from utils.filereader import readTextFile
 from os import path
+from utils.grep import grep
 
 class DfSearchApp(DfApp):
 
-    def run(self, args, whoAmI, onComplete, logger):
-        logger.info("DfSearchApp({})".format(args[whoAmI]))
-        onComplete(['result1', 'result2'])
+    def run(self, args, whoAmI, dir, onComplete, logger):
+        # logger.info("DfSearchApp({})".format(args[whoAmI]))
+        myArgs = args[whoAmI]
+        results = []
+        _dir = '{}{}'.format(dir, myArgs[0])
+        for keyword in myArgs[1]:
+           results[keyword] = grep(_dir, keyword)
+        onComplete(results)
     
     def formatArguments(self, args):
         return args
