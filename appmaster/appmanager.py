@@ -16,7 +16,7 @@ class DfAppManager:
         else:
             def __onComplete(response): onComplete(meta, response)
             app = apps[meta['app']]['instance']
-            app.run(app.formatArguments(meta['args']), __onComplete, self.logger)
+            app.run(app.formatArguments(meta['args']), self.config["whoAmI"], __onComplete, self.logger)
     
     def invokeAppResultsProcessor(self, app, result):
         app = apps[app]['instance']
@@ -26,4 +26,5 @@ class DfAppManager:
         if app not in apps:
             return None
         else:
-            return apps[app]['instance'].prepareArguments(args, self.config)
+            t = apps[app]['instance'].prepareArguments(args, self.config)
+            return apps[app]['instance'].distributeTasks(t, self.config["nodes"])

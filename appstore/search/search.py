@@ -4,8 +4,8 @@ from os import path
 
 class DfSearchApp(DfApp):
 
-    def run(self, args, onComplete, logger):
-        logger.info("DfSearchApp({})".format(args))
+    def run(self, args, whoAmI, onComplete, logger):
+        logger.info("DfSearchApp({})".format(args[whoAmI]))
         onComplete(['result1', 'result2'])
     
     def formatArguments(self, args):
@@ -22,7 +22,27 @@ class DfSearchApp(DfApp):
             return None
         
         if not path.exists('{}{}'.format(config['sync']['dir'], args[0])):
-            printf("DfSearchApp::dir {} not found!!".format(args[0]))
+            print("DfSearchApp::dir {} not found!!".format(args[0]))
             return None
         
         return [args[0], wordlist.strip().split('\n')]
+
+    def distributeTasks(self, _args, nodes):
+        args = _args[1]
+        totalNodes = len(nodes)
+        totalKeywords = len(args)
+        keywordsPerNode =  totalKeywords//totalNodes
+        firstNodeKeywordsLen = keywordsPerNode + (totalKeywords - keywordsPerNode * totalNodes)
+        print(firstNodeKeywordsLen)
+        isFirst = True
+        fargs = {} 
+        for node in nodes:
+            if isFirst:
+                fargs[node["id"]] = [ _args[0], args[:firstNodeKeywordsLen]]
+                args = args[firstNodeKeywordsLen:]
+                isFirst = False
+            else:
+                fargs[node["id"]] = args[:keywordsPerNode]
+                args = [_args[0], args[keywordsPerNode:]]
+        return fargs
+

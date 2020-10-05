@@ -4,7 +4,8 @@
         "dir": "/home/bibek/shared/df/"
     },
     "nodes": [
-        {"id":"1", "user": "bibek", "host": "192.168.1.64"}
+        {"id":"1", "user": "bibek", "host": "192.168.1.64"},
+        {"id":"2", "user": "bibek", "host": "192.168.1.63"}
     ],
     "rabbitmq": {
         "host": "192.168.1.63",

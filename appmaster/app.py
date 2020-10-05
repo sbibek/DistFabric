@@ -1,5 +1,5 @@
 class DfApp:
-    def run(self, arguments, onComplete):
+    def run(self, args, whoAmI, onComplete, logger):
        onComplete() 
     
     def formatArguments(self, args):
@@ -9,5 +9,8 @@ class DfApp:
         return result
 
     # only invoked by the master 
-    def prepareArguments(self, args):
+    def prepareArguments(self, args, config):
         return args
+    
+    def distributeTasks(self, _args, nodes):
+        return _args
