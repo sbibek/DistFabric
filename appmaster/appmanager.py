@@ -26,4 +26,4 @@ class DfAppManager:
         if app not in apps:
             return None
         else:
-            return apps[app]['instance'].prepareArguments(args)
+            return apps[app]['instance'].prepareArguments(args, self.config)
