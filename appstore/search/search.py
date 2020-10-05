@@ -8,7 +8,7 @@ class DfSearchApp(DfApp):
     def run(self, args, whoAmI, dir, onComplete, logger):
         # logger.info("DfSearchApp({})".format(args[whoAmI]))
         myArgs = args[whoAmI]
-        results = []
+        results = {} 
         _dir = '{}{}'.format(dir, myArgs[0])
         for keyword in myArgs[1]:
            results[keyword] = grep(_dir, keyword)
