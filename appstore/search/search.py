@@ -33,7 +33,6 @@ class DfSearchApp(DfApp):
         totalKeywords = len(args)
         keywordsPerNode =  totalKeywords//totalNodes
         firstNodeKeywordsLen = keywordsPerNode + (totalKeywords - keywordsPerNode * totalNodes)
-        print(firstNodeKeywordsLen)
         isFirst = True
         fargs = {} 
         for node in nodes:
@@ -42,7 +41,7 @@ class DfSearchApp(DfApp):
                 args = args[firstNodeKeywordsLen:]
                 isFirst = False
             else:
-                fargs[node["id"]] = args[:keywordsPerNode]
-                args = [_args[0], args[keywordsPerNode:]]
+                fargs[node["id"]] = [_args[0], args[:keywordsPerNode]]
+                args = args[keywordsPerNode:]
         return fargs
 
