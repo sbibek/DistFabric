@@ -29,7 +29,7 @@ class DfOrchestrator:
             self.logger.info("Orchestrator was unable to find action {}".format(message['action']))
     
     def __onAppInvokeSuccessfullyCompleted(self, originalMessage, result):
-        self.logger.info('invoke successful response: {}'.format(result))
+        # self.logger.info('invoke successful response: {}'.format(result))
         # on every successful invoke, the messge will be sent to master
         self.borker.sendToMaster({"args": originalMessage, "result": result})
 
@@ -66,7 +66,7 @@ class DfOrchestrator:
         self.process['state'] = 'running'
         self.process['app'] = app
         results = self.__waitfForResults()
-        self.appmanager.invokeAppLogResults(results)
+        self.appmanager.invokeAppLogResults(app, results)
     
     def __waitfForResults(self):
         # this is called after each of the invoke, this will mandatorily make the master wait for 

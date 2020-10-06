@@ -9,10 +9,12 @@ class DfSearchApp(DfApp):
     def run(self, args, whoAmI, dir, onComplete, logger):
         # logger.info("DfSearchApp({})".format(args[whoAmI]))
         myArgs = args[whoAmI]
+        print("Search({})".format(myArgs))
         results = {} 
         _dir = '{}{}'.format(dir, myArgs[0])
         for keyword in myArgs[1]:
            results[keyword] = grep(_dir, keyword)
+        print("{} keywords searched".format(len(results)))
         onComplete(results)
     
     def formatArguments(self, args):
@@ -25,7 +27,16 @@ class DfSearchApp(DfApp):
         tableData = [
             ["keword", "location", "highlight"]
         ]
-        table = AsciiTable(table_data)
+
+        for row in results:
+            r = row['result']
+            print(r)
+            for keyword in r:
+                for row in r[keyword]:
+                    _rr = [keyword, "{}:{}".format(row[0].split('/')[-1], row[1]), row[2]]
+                    tableData.append(_rr)
+
+        table = AsciiTable(tableData)
         print(table.table)
     
     def prepareArguments(self, args, config):

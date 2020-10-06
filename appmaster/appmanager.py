@@ -22,7 +22,7 @@ class DfAppManager:
         app = apps[app]['instance']
         return app.processResults(result)
 
-    def invokeAppLogResults(self, result):
+    def invokeAppLogResults(self, app, result):
         app = apps[app]['instance']
         return app.logResults(result)
     
