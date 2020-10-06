@@ -10,3 +10,8 @@ https://www.rabbitmq.com/install-debian.html#supported-debian-distributions
 3. The folder "backups/corpus/project" was inside the "/home/bibek/shared/df/" ie ${sync_dir}/project
 4. the search was invoked with the wordlist file available at backups/wordlist/test.txt (it was made available at /home/bibek/test.txt)
    invoke search project /home/bibek/test.txt
+
+Regarding the backup images
+There are two images
+1. df_master (this has both the node code at ~/df_paralleltasks and master code at ~/df/project (same git project). This has the rabbitmq. The IP for rabbitmq in conf.json should point to this)
+2. df_node (this has the node code at ~/df_paralleltasks and connects to rabbitmq in the master)
