@@ -16,3 +16,4 @@ There are two images
 1. df_master (this has both the node code at ~/df_paralleltasks and master code at ~/df/project (same git project). This has the rabbitmq. The IP for rabbitmq in conf.json should point to this)
 2. df_node (this has the node code at ~/df_paralleltasks and connects to rabbitmq in the master)
 (creds: bibek/bibek)
+(images uploaded to "images" folder in googledrive/(unr email))
