@@ -25,20 +25,18 @@ class DfSearchApp(DfApp):
     
     def logResults(self, results):
         tableData = [
-            ["keword", "location", "highlight"]
         ]
 
         for row in results:
             r = row['result']
-            print(r)
             for keyword in r:
                 for row in r[keyword]:
                     _rr = [keyword, "{}:{}".format(row[0].split('/')[-1], row[1]), row[2]]
                     tableData.append(_rr)
 
-        table = AsciiTable(tableData)
-        print(table.table)
-    
+        for row in tableData:
+            print("{}, {}, {}".format(row[0], row[1], row[2])) 
+
     def prepareArguments(self, args, config):
         # there are two argments, we will parse the 2nd argument to the file list
         wordlist = readTextFile(args[1]) 
