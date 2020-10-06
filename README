@@ -3,3 +3,10 @@ Digital Forensics Project
 # rabbitmq
 https://tecadmin.net/install-rabbitmq-server-on-ubuntu/
 https://www.rabbitmq.com/install-debian.html#supported-debian-distributions
+
+# NOTES
+1. When testing, there was 4 nodes that are in the conf.json
+2. The master and all the nodes have the same shared directory (mandatory)
+3. The folder "backups/corpus/project" was inside the "/home/bibek/shared/df/" ie ${sync_dir}/project
+4. the search was invoked with the wordlist file available at backups/wordlist/test.txt (it was made available at /home/bibek/test.txt)
+   invoke search project /home/bibek/test.txt
