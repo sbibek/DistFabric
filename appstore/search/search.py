@@ -22,7 +22,7 @@ class DfSearchApp(DfApp):
         _dir = '{}{}'.format(dir, myArgs[0])
         for keyword in myArgs[1]:
            results[keyword] = grep(_dir, keyword)
-        logger.log("{} keywords searched".format(len(results)))
+        logger.info("{} keywords searched".format(len(results)))
         onComplete(results)
     
     def formatArguments(self, args):
