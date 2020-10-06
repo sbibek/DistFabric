@@ -11,6 +11,7 @@ class DfCommander(cmd.Cmd):
         self.logger = logger
     
     def do_ls(self, args):
+        "list installed distributed apps"
         print("\nInstalled Apps")
         apps = self.orchestrator.getApps()
         i = 1 
