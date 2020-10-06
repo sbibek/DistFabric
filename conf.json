@@ -5,7 +5,9 @@
     },
     "nodes": [
         {"id":"1", "user": "bibek", "host": "192.168.1.64"},
-        {"id":"2", "user": "bibek", "host": "192.168.1.63"}
+        {"id":"2", "user": "bibek", "host": "192.168.1.63"},
+        {"id":"3", "user": "bibek", "host": "192.168.1.67"},
+        {"id":"4", "user": "bibek", "host": "192.168.1.68"}
     ],
     "rabbitmq": {
         "host": "192.168.1.63",
