@@ -7,6 +7,9 @@ class DfApp:
 
     def processResults(self, results):
         return result
+    
+    def logResults(self, results):
+        return results
 
     # only invoked by the master 
     def prepareArguments(self, args, config):

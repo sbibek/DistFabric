@@ -21,6 +21,10 @@ class DfAppManager:
     def invokeAppResultsProcessor(self, app, result):
         app = apps[app]['instance']
         return app.processResults(result)
+
+    def invokeAppLogResults(self, result):
+        app = apps[app]['instance']
+        return app.logResults(result)
     
     def invokeAppArgumentsProcessor(self, app, args):
         if app not in apps:
@@ -28,3 +32,4 @@ class DfAppManager:
         else:
             t = apps[app]['instance'].prepareArguments(args, self.config)
             return apps[app]['instance'].distributeTasks(t, self.config["nodes"])
+    

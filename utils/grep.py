@@ -7,5 +7,8 @@ def grep(dir, keyword):
         print(stderr)
         return None
     else:
-        res = stdout.decode('utf-8').strip().split('\n')
-        return [r.split(':') for r in res]
+        res = stdout.decode('utf-8').strip()
+        if len(res) == 0:
+            return []
+        else:
+            return [r.split(':') for r in res.split('\n')]

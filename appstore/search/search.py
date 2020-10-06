@@ -2,6 +2,7 @@ from appmaster.app import DfApp
 from utils.filereader import readTextFile
 from os import path
 from utils.grep import grep
+from terminaltables import AsciiTable
 
 class DfSearchApp(DfApp):
 
@@ -19,6 +20,13 @@ class DfSearchApp(DfApp):
 
     def processResults(self, results):
         return results
+    
+    def logResults(self, results):
+        tableData = [
+            ["keword", "location", "highlight"]
+        ]
+        table = AsciiTable(table_data)
+        print(table.table)
     
     def prepareArguments(self, args, config):
         # there are two argments, we will parse the 2nd argument to the file list

@@ -66,7 +66,7 @@ class DfOrchestrator:
         self.process['state'] = 'running'
         self.process['app'] = app
         results = self.__waitfForResults()
-        print(results)
+        self.appmanager.invokeAppLogResults(results)
     
     def __waitfForResults(self):
         # this is called after each of the invoke, this will mandatorily make the master wait for 
