@@ -88,7 +88,7 @@ class DfSearchApp(DfApp):
         if wordlist == None:
             print("DfSearchApp::file {} not found!!".format(args[1]))
             return None
-        
+
         if not path.exists('{}{}'.format(config['sync']['dir'], args[0])):
             print("DfSearchApp::dir {} not found!!".format(args[0]))
             return None

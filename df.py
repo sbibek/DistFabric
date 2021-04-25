@@ -8,7 +8,7 @@ import pyfiglet
 
 
 if __name__ == '__main__':
-    df = pyfiglet.figlet_format("DF::Dist-Search")
+    df = pyfiglet.figlet_format("DistFabric")
     print(df)
     print("V 1.0")
     config = getConf()
